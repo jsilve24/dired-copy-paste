@@ -58,11 +58,20 @@
 (defvar dired-copy-paste-func nil)
 (defvar dired-copy-paste-stored-file-list nil)
 
+(defun dired-copy-paste-parse-files-for-directories (fns)
+    "Add slashes to the end of files that are directories."
+    (mapcar (lambda (fn)
+	      (if (file-directory-p fn)
+		  (concat fn "/")
+		fn))
+	    fns))
+
 
 (defun dired-copy-paste-do-cut ()
   "In dired-mode, cut a file/dir on current line or all marked file/dir(s)."
   (interactive)
-  (setq dired-copy-paste-stored-file-list (dired-get-marked-files)
+  (setq dired-copy-paste-stored-file-list (dired-copy-paste-parse-files-for-directories
+					   (dired-get-marked-files))
         dired-copy-paste-func 'rename-file)
   (message
    (format "%S is/are cut."dired-copy-paste-stored-file-list)))
@@ -72,7 +81,7 @@
   "In dired-mode, copy a file/dir on current line or all marked file/dir(s)."
   (interactive)
   (setq dired-copy-paste-stored-file-list (dired-get-marked-files)
-        dired-copy-paste-func 'copy-file)
+        dired-copy-paste-func 'dired-copy-file)
   (message
    (format "%S is/are copied."dired-copy-paste-stored-file-list)))
 
@@ -86,7 +95,8 @@
           (progn
             (funcall dired-copy-paste-func stored-file (dired-current-directory) 1)
             (push stored-file stored-file-list))
-        (error nil)))
+        ;; (error nil)
+	))
     (if (eq dired-copy-paste-func 'rename-file)
         (setq dired-copy-paste-stored-file-list nil
               dired-copy-paste-func nil))
