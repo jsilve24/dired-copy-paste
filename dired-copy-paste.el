@@ -3,8 +3,10 @@
 ;; Copyrigth (C) 2011 Hidaka Uchida
 
 ;; Author: Hidaka Uchida <hidaka.uchida@gmail.com>
-;; Version: 0.1
+;; Maintainer: Justin Silverman <justinsilverman@psu.edu>
+;; Version: 0.2
 ;; Created: Jan 8 2011
+;; Last Updated: 2021-12-24
 ;; Keywords; dired, cut, copy, paste
 
 ;; This program is free software; you can redistribute it and/or
