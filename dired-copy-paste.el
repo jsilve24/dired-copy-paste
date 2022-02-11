@@ -3,7 +3,7 @@
 ;; Copyrigth (C) 2011 Hidaka Uchida
 
 ;; Author: Hidaka Uchida <hidaka.uchida@gmail.com>
-;; Maintainer: Justin Silverman <justinsilverman@psu.edu>
+;; Maintainer: Justin Silverman <justinsilverman@psu.edu> (as of December 26, 2021)
 ;; Version: 0.2
 ;; Created: Jan 8 2011
 ;; Last Updated: 2021-12-24
