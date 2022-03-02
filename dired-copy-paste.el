@@ -59,6 +59,7 @@
 
 (defvar dired-copy-paste-func nil)
 (defvar dired-copy-paste-stored-file-list nil)
+(defvar dired-copy-paste-rename "_copy")
 
 (defun dired-copy-paste-parse-files-for-directories (fns)
     "Add slashes to the end of files that are directories."
@@ -95,13 +96,22 @@
     (dolist (stored-file dired-copy-paste-stored-file-list)
       (condition-case nil
           (progn
-            (funcall dired-copy-paste-func stored-file (dired-current-directory) 1)
-            (push stored-file stored-file-list))
+            (if (file-exists-p (concat (dired-current-directory) (file-name-nondirectory stored-file)))
+                (progn (funcall 'dired-copy-file-recursive stored-file
+                                (concat (dired-current-directory)
+                                        (concat (concat (file-name-base stored-file) ;; build file name for copied one
+                                                dired-copy-paste-rename)
+                                                (file-name-extension stored-file t))) 1)
+                       (push stored-file stored-file-list))
+              (progn (funcall dired-copy-paste-func stored-file (dired-current-directory) 1)
+                     (push stored-file stored-file-list)))
+            )
         ;; (error nil)
 	))
     (if (eq dired-copy-paste-func 'rename-file)
         (setq dired-copy-paste-stored-file-list nil
-              dired-copy-paste-func nil))
+                     dired-copy-paste-func nil)
+        )
     (revert-buffer)
     (message
      (format "%d file/dir(s) pasted into current directory." (length stored-file-list)))))
